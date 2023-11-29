@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { TUser } from './user.interface';
+import bcrypt from 'bcrypt';
+import envFile from '../../config';
 
 const userSchema = new Schema<TUser>(
   {
@@ -26,8 +28,8 @@ const userSchema = new Schema<TUser>(
       type: String,
       enum: {
         values: ['in-prograss', 'blocked'],
-      }, // Enforce that the value must be one of the enum values
-      default: 'in-prograss', // Set the default value to 'active'
+      },
+      default: 'in-prograss',
     },
     isDelete: {
       type: Boolean,
@@ -39,5 +41,20 @@ const userSchema = new Schema<TUser>(
     timestamps: true,
   },
 );
+
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(envFile.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
 
 export const UserModel = model<TUser>('User', userSchema);

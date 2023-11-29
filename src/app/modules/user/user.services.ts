@@ -8,7 +8,7 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   // Create a user object
   const userData: Partial<TUser> = {};
 
-  userData.id = '2030100001';
+  userData.id = '2030100002';
   userData.password = password || (envFile.default_password as string);
   userData.role = 'student';
 

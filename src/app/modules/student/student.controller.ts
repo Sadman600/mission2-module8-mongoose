@@ -1,10 +1,14 @@
 import { StudentServices } from './student.services';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 // import studentValidationSchema from './student.validation';
 import studentSchemaZod from './student.validation.zod';
 
-const createStudentController = async (req: Request, res: Response) => {
+const createStudentController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { student } = await req.body;
     const studentZodSchema = studentSchemaZod.parse(student);
@@ -24,16 +28,16 @@ const createStudentController = async (req: Request, res: Response) => {
       status: 'Create a student successfully',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      status: error.message || 'Create a student unsuccessfully',
-      data: error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-const getStudentData = async (req: Request, res: Response) => {
+const getStudentData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const studentData = await StudentServices.getStudentService();
     res.status(200).json({
@@ -42,11 +46,7 @@ const getStudentData = async (req: Request, res: Response) => {
       data: studentData,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      status: 'Get student unsuccessfully',
-      data: error,
-    });
+    next(error);
   }
 };
 
