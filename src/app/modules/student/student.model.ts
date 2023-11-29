@@ -20,8 +20,14 @@ const studentAddressSchema = new Schema<TStudentAddress>({
   zipCode: { type: String, required: true },
 });
 const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
-  id: { type: String, required: [true, ''] },
+  id: { type: String, required: [true, 'must be id'], unique: true },
   name: { type: studentNameSchema, required: true },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'must be userId'],
+    unique: true,
+    ref: 'User',
+  },
   dateOfBirth: { type: String, required: true },
   gender: {
     type: String,
@@ -56,7 +62,7 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   address: { type: studentAddressSchema, required: true },
 });
 
-studentSchema.pre('save', function(next) {
+studentSchema.pre('save', function (next) {
   // do stuff
   next();
 });

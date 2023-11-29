@@ -1,7 +1,7 @@
 import { TStudent } from './student.interface';
 import { StudentSchemaModel } from './student.model';
 
-export const createStudentService = async (studentData: TStudent) => {
+const createStudentService = async (studentData: TStudent) => {
   const student = new StudentSchemaModel(studentData);
   if (await student.isUserExists(studentData.id)) {
     throw new Error('User already exists');
@@ -11,7 +11,12 @@ export const createStudentService = async (studentData: TStudent) => {
   return result;
 };
 
-export const getStudentService = async () => {
+const getStudentService = async () => {
   const result = await StudentSchemaModel.find();
   return result;
+};
+
+export const StudentServices = {
+  createStudentService,
+  getStudentService,
 };

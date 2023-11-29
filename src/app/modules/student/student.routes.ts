@@ -1,9 +1,9 @@
+import { StudentController } from './student.controller';
 import express from 'express';
-import { createStudentController, getStudentData } from './student.controller';
 
-const studentRoute = express();
+const studentRoute = express.Router();
 
-studentRoute.post('/create-student', createStudentController);
-studentRoute.get('/', getStudentData);
+// studentRoute.post('/create-student', StudentController.createStudentController);
+studentRoute.get('/', StudentController.getStudentData);
 
 export default studentRoute;
