@@ -67,7 +67,7 @@ export const academicSemesterSchema = new Schema<TAcademicSemester>(
   },
 );
 
-// export const AcademicSemesterModel = model(
-//   'AcademicSemester',
-//   academicSemesterSchema,
-// );
+export const AcademicSemesterModel = model(
+  'AcademicSemester',
+  academicSemesterSchema,
+);
