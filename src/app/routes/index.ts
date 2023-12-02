@@ -2,7 +2,7 @@ import { Router } from 'express';
 import studentRoute from '../modules/student/student.routes';
 import userRoutes from '../modules/user/user.routes';
 
-const router = Router();
+const routers = Router();
 
 const moduleRoutes = [
   {
@@ -15,6 +15,6 @@ const moduleRoutes = [
   },
 ];
 
-moduleRoutes.forEach((r) => router.use(r.path, r.route));
+moduleRoutes.forEach((router) => routers.use(router.path, router.route));
 
-export default router;
+export default routers;
