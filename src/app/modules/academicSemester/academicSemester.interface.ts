@@ -11,10 +11,12 @@ export type TMonths =
   | 'October'
   | 'November'
   | 'December';
+export type TAcademicSemesterName = 'Spring' | 'Summer' | 'Fall';
+export type TAcademicSemesterCode = '01' | '02' | '03';
 
 export type TAcademicSemester = {
-  name: 'Spring' | 'Summer' | 'Fall';
-  code: '01' | '02' | '03';
+  name: TAcademicSemesterName;
+  code: TAcademicSemesterCode;
   year: Date;
   startMonth: TMonths;
   endMonth: TMonths;
