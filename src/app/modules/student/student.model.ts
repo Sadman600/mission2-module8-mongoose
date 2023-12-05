@@ -8,17 +8,23 @@ import {
   TStudentName,
 } from './student.interface';
 
-const studentNameSchema = new Schema<TStudentName>({
-  firstName: { type: String, required: true },
-  middleName: { type: String },
-  lastName: { type: String, required: true },
-});
-const studentAddressSchema = new Schema<TStudentAddress>({
-  street: { type: String, required: true },
-  city: { type: String, required: true },
-  state: { type: String, required: true },
-  zipCode: { type: String, required: true },
-});
+const studentNameSchema = new Schema<TStudentName>(
+  {
+    firstName: { type: String, required: true },
+    middleName: { type: String },
+    lastName: { type: String, required: true },
+  },
+  { _id: false },
+);
+const studentAddressSchema = new Schema<TStudentAddress>(
+  {
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    zipCode: { type: String, required: true },
+  },
+  { _id: false },
+);
 const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   id: { type: String, required: [true, 'must be id'], unique: true },
   name: { type: studentNameSchema, required: true },

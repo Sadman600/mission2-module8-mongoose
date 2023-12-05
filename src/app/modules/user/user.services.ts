@@ -15,6 +15,7 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   userData.role = 'student';
 
   // find academic semester info
+
   const admissionSemester = await AcademicSemesterModel.findById(
     studentData.admissionSemester,
   );
