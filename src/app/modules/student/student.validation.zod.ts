@@ -19,7 +19,7 @@ const createStudentValidationSchemaZod = z.object({
     student: z.object({
       id: z.string().nonempty('ID is required'),
       name: studentNameSchemaZod,
-      dateOfBirth: z.string().nonempty('Date of birth is required'),
+      dateOfBirth: z.string(),
       gender: z.enum(['Male', 'Female', 'Other']),
       grade: z.string(),
       major: z.string().nonempty('Major is required'),
@@ -29,6 +29,7 @@ const createStudentValidationSchemaZod = z.object({
         .nonempty('Email is required'),
       phone: z.string(),
       address: studentAddressSchemaZod,
+      admissionSemester: z.string(),
     }),
   }),
 });

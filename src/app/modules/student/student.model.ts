@@ -60,6 +60,10 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   },
   phone: { type: String },
   address: { type: studentAddressSchema, required: true },
+  admissionSemester: {
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicSemester',
+  },
 });
 
 studentSchema.pre('save', function (next) {
