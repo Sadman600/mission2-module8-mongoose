@@ -4,21 +4,31 @@ import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 
-const createStudentController = catchAsync(async (req, res) => {
-  const { student } = await req.body;
+// const createStudent = catchAsync(async (req, res) => {
+//   const { student } = await req.body;
 
-  // const { error, value } = studentValidationSchema.validate(student);
-  // const result = await createStudentService(student);
-  const result = await StudentServices.createStudentService(student);
+//   // const { error, value } = studentValidationSchema.validate(student);
+//   // const result = await createStudentService(student);
+//   const result = await StudentServices.createStudentService(student);
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Create a student successfully',
+//     data: result,
+//   });
+// });
+const getAllStudent: RequestHandler = catchAsync(async (req, res) => {
+  const studentData = await StudentServices.getAllStudentFromDB();
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Create a student successfully',
-    data: result,
+    message: 'Get student successfully',
+    data: studentData,
   });
 });
-const getStudentData: RequestHandler = catchAsync(async (req, res) => {
-  const studentData = await StudentServices.getStudentService();
+const getSingleStudent: RequestHandler = catchAsync(async (req, res) => {
+  const studentId = req.params.studentId;
+  const studentData = await StudentServices.getSingleStudentFromDB(studentId);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -28,8 +38,9 @@ const getStudentData: RequestHandler = catchAsync(async (req, res) => {
 });
 
 export const StudentController = {
-  createStudentController,
-  getStudentData,
+  // createStudent,
+  getAllStudent,
+  getSingleStudent,
 };
 
 // res.status(200).json({

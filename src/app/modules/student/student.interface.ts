@@ -27,6 +27,8 @@ export type TStudent = {
   phone?: string;
   address: TStudentAddress;
   admissionSemester: Types.ObjectId;
+  academicDepartment: Types.ObjectId;
+  isDelete: boolean;
 };
 
 export type StudentMethods = {

@@ -30,6 +30,7 @@ const createStudentValidationSchemaZod = z.object({
       phone: z.string(),
       address: studentAddressSchemaZod,
       admissionSemester: z.string(),
+      academicDepartment: z.string(),
     }),
   }),
 });

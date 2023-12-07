@@ -70,6 +70,15 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
     type: Schema.Types.ObjectId,
     ref: 'AcademicSemester',
   },
+  academicDepartment: {
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicDepartment',
+  },
+  isDelete: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 studentSchema.pre('save', function (next) {

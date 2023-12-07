@@ -5,11 +5,12 @@ import express from 'express';
 
 const studentRoute = express.Router();
 
-studentRoute.post(
-  '/create-student',
-  // validateRequest(studentValidationSchemaZod.createStudentValidationSchemaZod),
-  StudentController.createStudentController,
-);
-studentRoute.get('/', StudentController.getStudentData);
+// studentRoute.post(
+//   '/create-student',
+//   // validateRequest(studentValidationSchemaZod.createStudentValidationSchemaZod),
+//   StudentController.createStudent,
+// );
+studentRoute.get('/', StudentController.getAllStudent);
+studentRoute.get('/:studentId', StudentController.getAllStudent);
 
 export default studentRoute;
