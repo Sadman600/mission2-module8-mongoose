@@ -11,6 +11,7 @@ const studentRoute = express.Router();
 //   StudentController.createStudent,
 // );
 studentRoute.get('/', StudentController.getAllStudent);
-studentRoute.get('/:studentId', StudentController.getAllStudent);
+studentRoute.get('/:studentId', StudentController.getSingleStudent);
+studentRoute.delete('/:studentId', StudentController.deleteStudent);
 
 export default studentRoute;
