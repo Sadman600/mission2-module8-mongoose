@@ -7,6 +7,8 @@ import {
   TStudentAddress,
   TStudentName,
 } from './student.interface';
+import AppError from '../../error/AppError';
+import httpStatus from 'http-status';
 
 const studentNameSchema = new Schema<TStudentName>(
   {
@@ -86,8 +88,21 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
   },
 );
 
-studentSchema.pre('save', function (next) {
-  // do stuff
+studentSchema.pre('find', function (next) {
+  this.find({ isDelete: { $ne: true } });
+  next();
+});
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDelete: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('findOneAndUpdate', async function (next) {
+  const query = this.getQuery();
+  const isStudentExists = await StudentSchemaModel.findOne(query);
+  if (!isStudentExists) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Student doesn't exisit");
+  }
   next();
 });
 

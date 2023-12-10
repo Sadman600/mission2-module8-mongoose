@@ -41,7 +41,7 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
     });
 
     if (!newStudent.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Fail to new user');
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to new user');
     }
     await session.commitTransaction();
     await session.endSession();
@@ -49,6 +49,7 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to new user');
   }
 };
 // const createStudentIntoDB = async (password: string, studentData: TStudent) => {

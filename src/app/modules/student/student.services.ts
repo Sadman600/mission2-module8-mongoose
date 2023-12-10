@@ -4,6 +4,7 @@ import { UserModel } from '../user/user.schema.model';
 import { StudentSchemaModel } from './student.model';
 import AppError from '../../error/AppError';
 import httpStatus from 'http-status';
+import { TStudent } from './student.interface';
 
 // const createStudentService = async (studentData: TStudent) => {
 //   const student = new StudentSchemaModel(studentData);
@@ -37,6 +38,31 @@ const getSingleStudentFromDB = async (id: string) => {
     });
   return result;
 };
+const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
+  const { name, address, ...remainingStudentData } = payload;
+  const modifiedData: Record<string, unknown> = { ...remainingStudentData };
+
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedData[`name.${key}`] = value;
+    }
+  }
+  if (address && Object.keys(address).length) {
+    for (const [key, value] of Object.entries(address)) {
+      modifiedData[`address.${key}`] = value;
+    }
+  }
+  const result = await StudentSchemaModel.findOneAndUpdate(
+    { id },
+    modifiedData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  return result;
+};
 
 const deleteStudentFromDB = async (id: string) => {
   const session = await mongoose.startSession();
@@ -65,6 +91,7 @@ const deleteStudentFromDB = async (id: string) => {
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete student');
   }
 };
 
@@ -72,5 +99,6 @@ export const StudentServices = {
   // createStudentService,
   getAllStudentFromDB,
   getSingleStudentFromDB,
+  updateStudentIntoDB,
   deleteStudentFromDB,
 };
