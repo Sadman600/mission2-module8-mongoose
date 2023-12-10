@@ -14,6 +14,7 @@ app.use(cors());
 app.use('/api/v1', routers);
 
 app.get('/', (req: Request, res: Response) => {
+  // Promise.reject();
   res.send('Hello World!');
 });
 

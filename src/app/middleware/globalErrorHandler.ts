@@ -1,3 +1,4 @@
+// import { path } from 'path';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
@@ -7,10 +8,11 @@ import { handleZodError } from '../error/handleZodError';
 import handleMongooseError from '../error/handleMongooseError';
 import handleCastError from '../error/handleCastError';
 import handleDuplicateError from '../error/handleDuplicateError';
+import AppError from '../error/AppError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  let statusCode = error.statusCode || 500;
-  let message = error.message || 'Something went wrong';
+  let statusCode = 500;
+  let message = 'Something went wrong';
   let errorSource: TErrorSource = [
     {
       path: '',
@@ -38,6 +40,24 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplifiErr?.statusCode;
     message = simplifiErr?.message;
     errorSource = simplifiErr?.errorSource;
+  } else if (error instanceof AppError) {
+    statusCode = error?.statusCode;
+    message = error?.message;
+    errorSource = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ];
+  } else if (error instanceof Error) {
+    statusCode = 400;
+    message = error?.message;
+    errorSource = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ];
   }
   return res.status(statusCode).json({
     success: false,
