@@ -18,7 +18,9 @@ import catchAsync from '../../utils/catchAsync';
 //   });
 // });
 const getAllStudent: RequestHandler = catchAsync(async (req, res) => {
-  const studentData = await StudentServices.getAllStudentFromDB();
+  console.log(req.query);
+
+  const studentData = await StudentServices.getAllStudentFromDB(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
